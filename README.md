@@ -3,7 +3,7 @@ Code and data for poster presentation at the University of Oklahoma's 2025 GIS D
 
 ## GIS Day Data Processing and Analysis Steps
 This document aims to explain how to set up and run code to replicate results
-1. Start by downloading data. This can come from the original sites or from Git repository. Needed data is as follows:
+1. Start by downloading data. This can come from the original sites or this link https://mega.nz/folder/aIMUwLoR#QmUha17suBDv65KZMODE_A. Needed data is as follows:
     1. Air pollution in NetCDF format from https://sites.wustl.edu/acag/surface-pm2-5/ 
     For this study, scroll down to the North American Regional Estimates with Composition (V5.NA.05 / V5.NA.05.02) model
     and click the NetCDF button under "Annual, monthly, and biweekly mean total PM2.5 [ug/m3] at 0.01° × 0.01°" and 
@@ -13,21 +13,21 @@ This document aims to explain how to set up and run code to replicate results
 
     3. Download desired census variables from https://www.nhgis.org/. This will require an account. Code in this project is designed for block level input data. 
 
-2. Create a project in ArcGIS Pro to use to view results. You could also create a geodatabase separately to use to hold results if wanted.
+3. Create a project in ArcGIS Pro to use to view results. You could also create a geodatabase separately to use to hold results if wanted.
 
-3. Run PM2.5NetCDFProcessing.py. Modify code to set input folder containing NetCDF files. Output gdb should be the gdb created as part of the ArcGIS Pro project created in step 2. 
+4. Run PM2.5NetCDFProcessing.py. Modify code to set input folder containing NetCDF files. Output gdb should be the gdb created as part of the ArcGIS Pro project created in step 2. 
 
-4. Run NLCDClipping.py. Modify code to set input folder
+5. Run NLCDClipping.py. Modify code to set input folder
 
-5. Run ZonalStatsJoin.py. Modify code to set geodatabase
+6. Run ZonalStatsJoin.py. Modify code to set geodatabase
 
-6. Check (probably easiest in ArcGIS Pro) that output zonal statistics tables have the same number of rows as input tables. If using study area shapefiles from Github repository this should be 1007 for Phoenix and 1073 for Houston. If these numbers do not match up, go through the steps at the bottom of this page under "Zonal Statistics Workarounds". 
+7. Check (probably easiest in ArcGIS Pro) that output zonal statistics tables have the same number of rows as input tables. If using study area shapefiles from Github repository this should be 1007 for Phoenix and 1073 for Houston. If these numbers do not match up, go through the steps at the bottom of this page under "Zonal Statistics Workarounds". 
 
 
-7. Now we switch to R for more tabular processing. Export zonal statistics tables from geodatabase and store them in one folder. The best way I have found to do this is the Batch Export Table tool in ArcGIS Pro. Set the file path outside of the gdb and add .csv at the end. Something like this 
+8. Now we switch to R for more tabular processing. Export zonal statistics tables from geodatabase and store them in one folder. The best way I have found to do this is the Batch Export Table tool in ArcGIS Pro. Set the file path outside of the gdb and add .csv at the end. Something like this 
 \Documents\ZonalStatsTables\%Name%.csv
 
-8. Install and load needed libraries in R. This can be done as they are encountered but here are all of the ones that will be used.
+9. Install and load needed libraries in R. This can be done as they are encountered but here are all of the ones that will be used.
     stringr
     dplyr
     sf
@@ -42,9 +42,9 @@ This document aims to explain how to set up and run code to replicate results
     GISTools
     Rtools
 
-9. Set working directory by session > set working directory > Choose Directory... > Select folder containing NHGIS data
+10. Set working directory by session > set working directory > Choose Directory... > Select folder containing NHGIS data
 
-10. Run CodebooksAndCrosswalks.R. Calls at the bottom may need to be changed if not using data from Github repository. By default, the processed data will stay in this folder and will need to be moved later
+11. Run CodebooksAndCrosswalks.R. Calls at the bottom may need to be changed if not using data from Github repository. By default, the processed data will stay in this folder and will need to be moved later
 
 Some info on how codebooks and crosswalks work:
     Codebooks are .txt files that come with census data when downloaded through NHGIS that explain what each column is as well as information about survey forms and what level the data was collected on. When you first open the actual data in the .csv file, the column names are codes that are not understandable. The code in this step automatically reads and sets the column names based off of the codebook. Some of the column names may be worded a little odd or be very long names but they are more readable. 
